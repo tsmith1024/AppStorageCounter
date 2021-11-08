@@ -12,13 +12,14 @@ class PickerViewModel: NSObject, ObservableObject {
 
     /*
      To use the data stored in app storage,
-     we have to decode it from a string
+     we have to decode it from a JSON string
      into a useful array of integers.
      We can then check this array to see if
      it contains the id of a given item and
      update the bookmark display for that item.
      This check is done in the view in this example
      */
+    // "[1,2,3,4]" => [1,2,3,4]
     var selectionList: [Int] {
         let decoder = JSONDecoder()
         var results: [Int] = []
@@ -33,7 +34,7 @@ class PickerViewModel: NSObject, ObservableObject {
     /*
      When we toggle an item, we have to:
      - add item to or remove item from the decoded list
-     - encode the updated list
+     - encode the updated list to a JSON array string
      - update selections value to trigger storage
      */
     func toggleItem(id: Int) {
@@ -44,6 +45,7 @@ class PickerViewModel: NSObject, ObservableObject {
             currentList.append(id)
         }
 
+        // [1,2,3] => "[1,2,3]"
         let encoder = JSONEncoder()
         if let encodedData = try? encoder.encode(currentList),
            let encodedString = String(data: encodedData, encoding: .utf8) {

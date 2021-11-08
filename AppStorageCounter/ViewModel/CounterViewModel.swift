@@ -2,7 +2,10 @@ import Foundation
 import SwiftUI
 
 class CounterViewModel: NSObject, ObservableObject {
-    @AppStorage("edfarm.appstoragedemo.counter") var counter: String = "0"
+    static let myCounterName = "edfarm.appstoragedemo.counter"
+    static let myCounterDefault = "0"
+    
+    @AppStorage(CounterViewModel.myCounterName) var counter: String = CounterViewModel.myCounterDefault
 
     /*
      To update the stored value we have to:
@@ -13,6 +16,7 @@ class CounterViewModel: NSObject, ObservableObject {
      */
     func updateCounter(by update: Int) {
         if let count = Int(counter) {
+            // count is an integer, so we can do math!
             counter = "\(count + update)"
         }
     }
